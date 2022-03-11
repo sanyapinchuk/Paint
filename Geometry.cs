@@ -8,7 +8,6 @@ namespace Figures
 {
     abstract class Geometry
     {
-        abstract public void Draw(Graphics g);
         public SolidBrush brush;
         public Geometry(Color color)
         {

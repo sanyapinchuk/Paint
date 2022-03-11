@@ -21,9 +21,5 @@ namespace Figures
             Height = Width;
             
         }
-        public override void Draw(Graphics g)
-        {
-            g.FillRectangle(brush, position.X, position.Y, Width, Width);
-        }
     }
 }

@@ -26,10 +26,5 @@ namespace Figures
 
 
         }
-        public override void Draw(Graphics g)
-        {
-            Points = Vertices.ToArray();
-            g.FillPolygon(brush, Points);
-        }
     }
 }

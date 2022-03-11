@@ -26,10 +26,6 @@ namespace Figures
             this.Height = second.Y - first.Y;
 
         }
-        public override void Draw(Graphics g)
-        {
 
-            g.FillRectangle(brush, position.X, position.Y, Width, Height);
-        }
     }
 }

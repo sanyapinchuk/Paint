@@ -14,9 +14,5 @@ namespace Figures
             FirstPoint = center;            
         }
 
-        public override void Draw(Graphics g)
-        {
-            g.FillEllipse(brush, FirstPoint.X- Width / 2, FirstPoint.Y - Height / 2, Width, Height);
-        }
     }
 }

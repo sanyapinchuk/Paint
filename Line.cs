@@ -33,12 +33,6 @@ namespace Figures
             Second = new Point(First.X + (int)(length * Math.Cos(angle * Math.PI / 180)),
                                 First.Y - (int)(length * Math.Sin(angle * Math.PI / 180)));
         }
-        public override void Draw(Graphics g)
-        {
-            Pen pen = new Pen(brush.Color, 4f);
-
-            g.DrawLine(pen,First,Second);
-        }
 
     }
 }

@@ -37,5 +37,9 @@ namespace Figures
         {
             g.FillRectangle(square.brush, square.position.X, square.position.Y, square.Width, square.Width);
         }
+        public static void Draw(Graphics g, MyPoint point)
+        {
+            g.FillEllipse(point.brush, point.Position.X, point.Position.Y, 4, 4);
+        }
     }
 }

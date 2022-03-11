@@ -25,9 +25,5 @@ namespace Figures
             this.Width = secondPoint.X - firstpoint.X;
             this.Height = secondPoint.Y - firstpoint.Y;
         }
-        public override void Draw(Graphics g)
-        {
-            g.FillEllipse(brush,FirstPoint.X,FirstPoint.Y,Width,Height);
-        }
     }
 }

@@ -258,7 +258,7 @@ namespace Figures
             if (!isCreating)
             {
                 figures.Points.Add(new MyPoint(mousePositon, globalColor));
-                figures.Points[0].Draw(g);
+                PaintForm.Draw(g,figures.Points[0]);
                 cursorsHistory.Add(mousePositon);
                 /*figures.Polygon.Vertices.Clear();
                 figures.Polygon.Vertices.Add(mousePositon);*/
@@ -269,11 +269,11 @@ namespace Figures
             }
             else
             {
-                if (!IsNearPoints(mousePositon, cursorsHistory[0], 155))
+                if (!IsNearPoints(mousePositon, cursorsHistory[0], 555))
                 {
                     cursorsHistory.Add(mousePositon);
                     figures.Points.Add(new MyPoint(mousePositon, globalColor));
-                    //figures.Points[1].Draw(g);
+                    PaintForm.Draw(g, figures.Points.Last());
                     figures.Polygons.Last().Vertices.Add(mousePositon);
                 }
                 else
