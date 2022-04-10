@@ -1,4 +1,5 @@
-﻿namespace Figures
+﻿using System.Windows.Forms;
+namespace Figures
 {
     partial class Form1
     {
@@ -31,6 +32,9 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.button7 = new System.Windows.Forms.Button();
             this.clearButton = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
@@ -51,6 +55,8 @@
             this.workArea = new System.Windows.Forms.Panel();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.panel1.SuspendLayout();
+            this.panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -58,6 +64,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.clearButton);
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.label1);
@@ -67,6 +74,38 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1561, 120);
             this.panel1.TabIndex = 0;
+            // 
+            // panel4
+            // 
+            this.panel4.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.panel4.Controls.Add(this.trackBar1);
+            this.panel4.Controls.Add(this.button7);
+            this.panel4.Location = new System.Drawing.Point(34, 9);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(197, 98);
+            this.panel4.TabIndex = 6;
+            // 
+            // trackBar1
+            // 
+            this.trackBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.trackBar1.Location = new System.Drawing.Point(0, 42);
+            this.trackBar1.Minimum = 1;
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(197, 56);
+            this.trackBar1.TabIndex = 7;
+            this.trackBar1.Value = 1;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            // 
+            // button7
+            // 
+            this.button7.Image = ((System.Drawing.Image)(resources.GetObject("button7.Image")));
+            this.button7.Location = new System.Drawing.Point(82, 3);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(36, 34);
+            this.button7.TabIndex = 6;
+            this.button7.TabStop = false;
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // clearButton
             // 
@@ -270,7 +309,9 @@
             this.workArea.TabIndex = 1;
             this.workArea.Click += new System.EventHandler(this.workArea_Click);
             this.workArea.Paint += new System.Windows.Forms.PaintEventHandler(this.workArea_Paint);
+            this.workArea.MouseDown += new System.Windows.Forms.MouseEventHandler(this.workArea_MouseDown);
             this.workArea.MouseMove += new System.Windows.Forms.MouseEventHandler(this.workArea_MouseMove);
+            this.workArea.MouseUp += new System.Windows.Forms.MouseEventHandler(this.workArea_MouseUp);
             // 
             // Form1
             // 
@@ -284,6 +325,9 @@
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -312,5 +356,8 @@
         private Button button6;
         private ColorDialog colorDialog1;
         private Button clearButton;
+        private Panel panel4;
+        private Button button7;
+        private TrackBar trackBar1;
     }
 }

@@ -1,10 +1,15 @@
+using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace Figures
 {
 
     public delegate void CurrentFiguresHandler();
+    public delegate void CurrentPensHandler(object sender, MouseEventArgs e);
     public partial class Form1 : Form
     {
         public Form1()
@@ -16,6 +21,10 @@ namespace Figures
             clearButton.FlatAppearance.BorderSize = 1;
             clearButton.FlatStyle = FlatStyle.Flat;
             clearButton.FlatAppearance.BorderColor = Color.FromArgb(100, 100, 100);
+            
+            globalPen = new Pen(Color.Red, 1);
+            globalPen.StartCap = System.Drawing.Drawing2D.LineCap.Round;
+            globalPen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
         }
 
         Cursor paintCursor = new Cursor("C:/Users/Asus/Desktop/4сем/ооп/Paint/icons/cursor.cur");
@@ -24,63 +33,45 @@ namespace Figures
 
         private List<Point> cursorsHistory = new List<Point>();
 
-
+        private Point lastPosition = new Point(0,0);
         private Point mousePositon;
         public Graphics g;
         private AllFigures figures= new AllFigures();
 
+        CurrentFiguresHandler currentFiguresHandler;
+
         private Color globalColor = Color.Red;
+
+        Pen globalPen;
+
         private bool isCreating = false;
+        private bool isPressed = false;
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            /*figures.Point.Draw(g);
-            figures.Line.Draw(g);
-            figures.Rect.Draw(g);
-            figures.Square.Draw(g);
-            figures.Ellipse.Draw(g);
-            figures.Circle.Draw(g);
-            figures.Polygon.Draw(g);*/
+
         }
 
         private void ChangeFiguresButtons(bool isEnable)
         {
-            if (isEnable)
-            {
-                //figures
-                circle.Enabled = true;
-                ellipse.Enabled = true;
-                square.Enabled = true;
-                rect.Enabled = true;
-                polygon.Enabled = true;
-                line.Enabled = true;
-                //colors
-                button1.Enabled = true;
-                button2.Enabled = true;
-                button3.Enabled = true;
-                button4.Enabled = true;
-                button5.Enabled = true;
-                button6.Enabled = true;
-            }
-            else
-            {
-                circle.Enabled = false;
-                ellipse.Enabled = false;
-                square.Enabled = false;
-                rect.Enabled = false;
-                polygon.Enabled = false;
-                line.Enabled = false;
-                
-                button1.Enabled = false;
-                button2.Enabled = false;
-                button3.Enabled = false;
-                button4.Enabled = false;
-                button5.Enabled = false;
-                button6.Enabled = false;
-            }
+            circle.Enabled = isEnable;
+            ellipse.Enabled = isEnable;
+            square.Enabled = isEnable;
+            rect.Enabled = isEnable;
+            polygon.Enabled = isEnable;
+            line.Enabled = isEnable;
+            button7.Enabled = isEnable;
+            //colors
+            button1.Enabled = isEnable;
+            button2.Enabled = isEnable;
+            button3.Enabled = isEnable;
+            button4.Enabled = isEnable;
+            button5.Enabled = isEnable;
+            button6.Enabled = isEnable;
+           
         }
 
-        CurrentFiguresHandler currentFiguresHandler;
+
 
         private int GetDistanceBetweenPoints(Point first, Point second)
         {
@@ -93,7 +84,7 @@ namespace Figures
 
         private bool IsNearPoints(Point first, Point second, int distance)
         {
-            if (GetDistanceBetweenPoints(first,second) < 5)
+            if (GetDistanceBetweenPoints(first,second) < distance)
                 return true;
             else
                 return false;
@@ -107,7 +98,7 @@ namespace Figures
                 figures.Points.Add(new MyPoint(mousePositon, globalColor));
                 //figures.Points[0].Draw(g);
                 cursorsHistory.Add(mousePositon);
-                figures.Line.First = mousePositon;
+                //figures.Line.First = mousePositon;
                 isCreating = true;
                 ChangeFiguresButtons(false);
             }
@@ -133,7 +124,7 @@ namespace Figures
                 figures.Points.Add(new MyPoint(mousePositon, globalColor));
                 //figures.Points[0].Draw(g);
                 cursorsHistory.Add(mousePositon);
-                figures.Square.position = mousePositon;
+                //figures.Square.position = mousePositon;
                 isCreating = true;
                 ChangeFiguresButtons(false);
             }
@@ -166,7 +157,7 @@ namespace Figures
                 figures.Points.Add(new MyPoint(mousePositon, globalColor));
                 //figures.Points[0].Draw(g);
                 cursorsHistory.Add(mousePositon);
-                figures.Rect.position = mousePositon;
+                //figures.Rect.position = mousePositon;
                 isCreating = true;
                 ChangeFiguresButtons(false);
             }
@@ -199,7 +190,7 @@ namespace Figures
                 figures.Points.Add(new MyPoint(mousePositon, globalColor));
                 //figures.Points[0].Draw(g);
                 cursorsHistory.Add(mousePositon);
-                figures.Circle.FirstPoint = mousePositon;
+                //figures.Circle.FirstPoint = mousePositon;
                 isCreating = true;
                 ChangeFiguresButtons(false);
             }
@@ -227,7 +218,7 @@ namespace Figures
                 figures.Points.Add(new MyPoint(mousePositon, globalColor));
                 //figures.Points[0].Draw(g);
                 cursorsHistory.Add(mousePositon);
-                figures.Ellipse.FirstPoint = mousePositon;
+               // figures.Ellipse.FirstPoint = mousePositon;
                 isCreating = true;
                 ChangeFiguresButtons(false);
             }
@@ -269,7 +260,7 @@ namespace Figures
             }
             else
             {
-                if (!IsNearPoints(mousePositon, cursorsHistory[0], 555))
+                if (!IsNearPoints(mousePositon, cursorsHistory[0], 20))
                 {
                     cursorsHistory.Add(mousePositon);
                     figures.Points.Add(new MyPoint(mousePositon, globalColor));
@@ -291,42 +282,64 @@ namespace Figures
             }
         }
 
+        private void WorkArea_Click_Brush(object sender, MouseEventArgs e)
+        {
+            if (isPressed)
+            {
+                g.DrawLine(globalPen, lastPosition, e.Location);
+            }
+            lastPosition = e.Location;
+        }
+
+
 
         private void line_Click(object sender, EventArgs e)
         {
 
             currentFiguresHandler = WorkArea_Click_Line;
+            workArea.MouseMove -= WorkArea_Click_Brush;
 
         }
 
         private void circle_Click(object sender, EventArgs e)
         {
             currentFiguresHandler = WorkArea_Click_Circle;
+            workArea.MouseMove -= WorkArea_Click_Brush;
 
         }
 
         private void ellipse_Click(object sender, EventArgs e)
         {
             currentFiguresHandler = WorkArea_Click_Ellipse;
+            workArea.MouseMove -= WorkArea_Click_Brush;
         }
 
         private void rect_Click(object sender, EventArgs e)
         {
             currentFiguresHandler = WorkArea_Click_Rect;
+            workArea.MouseMove -= WorkArea_Click_Brush;
         }
 
         private void square_Click(object sender, EventArgs e)
         {
             currentFiguresHandler = WorkArea_Click_Square;
+            workArea.MouseMove -= WorkArea_Click_Brush;
         }
 
         private void polygon_Click(object sender, EventArgs e)
         {
             currentFiguresHandler = WorkArea_Click_Polygon;
+            workArea.MouseMove -= WorkArea_Click_Brush;
         }
-        
-        
-         
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            currentFiguresHandler = null;
+            workArea.MouseMove += WorkArea_Click_Brush;
+        }
+
+
+
         private void workArea_Paint(object sender, EventArgs e)
         {
             foreach (Line lines in figures.Lines )
@@ -355,14 +368,6 @@ namespace Figures
             {
                 PaintForm.Draw(g, polygons);
             }
-            // g.Clear(Color.White);
-            /*figures.Point.Draw(g);
-            figures.Line.Draw(g);
-            figures.Rect.Draw(g);
-            figures.Square.Draw(g);
-            figures.Ellipse.Draw(g);
-            figures.Circle.Draw(g);
-            figures.Polygon.Draw(g);*/
         }
        
 
@@ -370,12 +375,6 @@ namespace Figures
         private void workArea_MouseMove(object sender, MouseEventArgs e)
         {
             mousePositon = e.Location;
-          /*  if (IsLine)
-            {
-                figures.Line.Second = e.Location;
-                
-                figures.Line.Draw(g);
-            }*/
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -435,5 +434,20 @@ namespace Figures
                 currentFiguresHandler();
         }
 
+        private void workArea_MouseDown(object sender, MouseEventArgs e)
+        {
+            globalPen.Color = globalColor;
+            isPressed = true;
+        }
+
+        private void workArea_MouseUp(object sender, MouseEventArgs e)
+        {
+            isPressed = false;
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            globalPen.Width = trackBar1.Value;
+        }
     }
 }

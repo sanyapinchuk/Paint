@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace Figures
 {
-    class Rect:Geometry
+    class Rect:Polygon
     {
 
         public Point position { get; set; }
